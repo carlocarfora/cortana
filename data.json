@@ -1,158 +1,78 @@
 {
   "quickLinks": [
     {
-      "name": "Reddit",
-      "url": "https://reddit.com"
-    },
-    {
       "name": "Hacker News",
       "url": "https://news.ycombinator.com"
     },
     {
-      "name": "Twitter",
+      "name": "X",
       "url": "https://twitter.com"
     },
     {
       "name": "LinkedIn",
       "url": "https://linkedin.com"
-    },
-    {
-      "name": "AWS Console",
-      "url": "https://console.aws.amazon.com"
-    },
-    {
-      "name": "DigitalOcean",
-      "url": "https://cloud.digitalocean.com"
-    },
-    {
-      "name": "Vercel",
-      "url": "https://vercel.com/dashboard"
-    },
-    {
-      "name": "Netlify",
-      "url": "https://app.netlify.com"
     }
   ],
   "sections": [
     {
-      "title": "Web Apps",
-      "color": "blue",
       "apps": [
         {
+          "description": "Personal workout tracker.",
+          "icon": "weight",
           "name": "Strong",
-          "description": "Code hosting and collaboration",
-          "url": "https://github.com",
-          "icon": "github"
+          "url": "https://strong.carlocarfora.co.uk"
         },
         {
+          "description": "Personal flights tracker.",
+          "icon": "plane",
           "name": "Flights",
-          "description": "Web-based code editor",
-          "url": "https://vscode.dev",
-          "icon": "code"
+          "url": "https://flights.carlocarfora.co.uk"
         },
         {
+          "description": "Personal photoblog website.",
+          "icon": "camera",
           "name": "Travels",
-          "description": "Developer Q&A community",
-          "url": "https://stackoverflow.com",
-          "icon": "layers"
+          "url": "https://travels.carlocarfora.co.uk"
         },
         {
-          "name": "Docker Hub",
-          "description": "Container image registry",
-          "url": "https://hub.docker.com",
-          "icon": "box"
+          "description": "",
+          "icon": "",
+          "name": "",
+          "url": ""
         }
-      ]
+      ],
+      "color": "blue",
+      "title": "Web Apps"
     },
     {
-      "title": "Media",
+      "apps": [
+        {
+          "description": "Personal portfolio and blog.",
+          "icon": "home",
+          "name": "Home Site",
+          "url": "https://www.carlocarfora.co.uk"
+        },
+        {
+          "description": "GitHub",
+          "icon": "github",
+          "name": "Personal Github",
+          "url": "http://www.github.com/carlocarfora"
+        },
+        {
+          "description": "",
+          "icon": "",
+          "name": "",
+          "url": ""
+        },
+        {
+          "description": "",
+          "icon": "",
+          "name": "",
+          "url": ""
+        }
+      ],
       "color": "pink",
-      "apps": [
-        {
-          "name": "Plex",
-          "description": "Media server streaming",
-          "url": "http://localhost:32400/web",
-          "icon": "play-circle"
-        },
-        {
-          "name": "Jellyfin",
-          "description": "Free media system",
-          "url": "http://localhost:8096",
-          "icon": "tv"
-        },
-        {
-          "name": "YouTube",
-          "description": "Video sharing platform",
-          "url": "https://youtube.com",
-          "icon": "youtube"
-        },
-        {
-          "name": "Spotify",
-          "description": "Music streaming service",
-          "url": "https://open.spotify.com",
-          "icon": "music"
-        }
-      ]
-    },
-    {
-      "title": "Home Server",
-      "color": "green",
-      "apps": [
-        {
-          "name": "Portainer",
-          "description": "Docker container management",
-          "url": "http://localhost:9000",
-          "icon": "server"
-        },
-        {
-          "name": "Home Assistant",
-          "description": "Home automation platform",
-          "url": "http://localhost:8123",
-          "icon": "home"
-        },
-        {
-          "name": "Pi-hole",
-          "description": "Network-wide ad blocking",
-          "url": "http://pi.hole/admin",
-          "icon": "shield"
-        },
-        {
-          "name": "Grafana",
-          "description": "Metrics & monitoring dashboards",
-          "url": "http://localhost:3000",
-          "icon": "bar-chart"
-        }
-      ]
-    },
-    {
-      "title": "Productivity",
-      "color": "peach",
-      "apps": [
-        {
-          "name": "Notion",
-          "description": "All-in-one workspace",
-          "url": "https://notion.so",
-          "icon": "file-text"
-        },
-        {
-          "name": "Gmail",
-          "description": "Email service",
-          "url": "https://mail.google.com",
-          "icon": "mail"
-        },
-        {
-          "name": "Calendar",
-          "description": "Google Calendar",
-          "url": "https://calendar.google.com",
-          "icon": "calendar"
-        },
-        {
-          "name": "Trello",
-          "description": "Project management boards",
-          "url": "https://trello.com",
-          "icon": "trello"
-        }
-      ]
+      "title": "Personal"
     }
   ]
 }
