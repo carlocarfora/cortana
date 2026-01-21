@@ -142,7 +142,7 @@ function renderSections() {
             <h2 class="section-header text-2xl font-bold mb-4 flex items-center gap-2">
                 <span style="color: ${colorMap[section.color] || colorMap.blue};">${section.title}</span>
             </h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                 ${section.apps.map(app => renderCard(app, section.color)).join('')}
             </div>
         </section>

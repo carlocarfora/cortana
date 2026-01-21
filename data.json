@@ -35,23 +35,23 @@
   ],
   "sections": [
     {
-      "title": "Dev Tools",
+      "title": "Web Apps",
       "color": "blue",
       "apps": [
         {
-          "name": "GitHub",
+          "name": "Strong",
           "description": "Code hosting and collaboration",
           "url": "https://github.com",
           "icon": "github"
         },
         {
-          "name": "VS Code",
+          "name": "Flights",
           "description": "Web-based code editor",
           "url": "https://vscode.dev",
           "icon": "code"
         },
         {
-          "name": "Stack Overflow",
+          "name": "Travels",
           "description": "Developer Q&A community",
           "url": "https://stackoverflow.com",
           "icon": "layers"
