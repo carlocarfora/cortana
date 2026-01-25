@@ -18,7 +18,7 @@
       "apps": [
         {
           "description": "Personal workout tracker.",
-          "icon": "weight",
+          "icon": "dumbbell",
           "name": "Strong",
           "url": "https://strong.carlocarfora.co.uk"
         },
@@ -33,12 +33,6 @@
           "icon": "camera",
           "name": "Travels",
           "url": "https://travels.carlocarfora.co.uk"
-        },
-        {
-          "description": "",
-          "icon": "",
-          "name": "",
-          "url": ""
         }
       ],
       "color": "blue",
@@ -53,22 +47,10 @@
           "url": "https://www.carlocarfora.co.uk"
         },
         {
-          "description": "GitHub",
+          "description": "GitHub profile and repositories.",
           "icon": "github",
           "name": "Personal Github",
-          "url": "http://www.github.com/carlocarfora"
-        },
-        {
-          "description": "",
-          "icon": "",
-          "name": "",
-          "url": ""
-        },
-        {
-          "description": "",
-          "icon": "",
-          "name": "",
-          "url": ""
+          "url": "https://www.github.com/carlocarfora"
         }
       ],
       "color": "pink",
