@@ -10,7 +10,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
+      - name: Prepare target directory on VPS
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          script: |
+            TARGET=/var/www/cortana
+            sudo mkdir -p "$TARGET"
+            sudo chown -R ${{ secrets.VPS_USER }}:${{ secrets.VPS_USER }} "$TARGET" || true
+            sudo chmod -R u+rwX "$TARGET" || true
+            sudo find "$TARGET" -mindepth 1 -maxdepth 1 -exec rm -rf -- {} +
       - name: Copy files to VPS
         uses: appleboy/scp-action@master
         with:
