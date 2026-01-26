@@ -101,6 +101,18 @@ sudo python3 /opt/cortana-monitor/monitor.py
 cat /var/www/cortana/stats.json
 ```
 
+**Verify cron job is installed:**
+```bash
+sudo crontab -l | grep cortana-monitor
+```
+
+If the cron job is missing, manually install it:
+```bash
+sudo bash -c '(crontab -l 2>/dev/null; echo "* * * * * /usr/bin/python3 /opt/cortana-monitor/monitor.py > /var/log/cortana-monitor.log 2>&1") | crontab -'
+```
+
+**Note:** The install.sh script may occasionally fail to install the cron job. If stats.json is not updating every minute, verify the cron job exists using the command above and install it manually if needed.
+
 ## Requirements
 
 - Python 3.6+
