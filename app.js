@@ -1,5 +1,6 @@
 // Global state
 let appData = null;
+let statsData = null;
 let currentSearchQuery = '';
 let visibleApps = [];
 
@@ -310,16 +311,222 @@ function updateWorldClocks() {
 // Render quick links
 function renderQuickLinks() {
     const container = document.getElementById('quick-links');
+    const containerMobile = document.getElementById('quick-links-mobile');
 
     if (!appData || !appData.quickLinks) {
         return;
     }
 
-    container.innerHTML = appData.quickLinks.map(link => `
+    const linksHtml = appData.quickLinks.map(link => `
         <a href="${link.url}" target="_blank" rel="noopener noreferrer" class="sidebar-link">
             ${link.name}
         </a>
     `).join('');
+
+    if (container) container.innerHTML = linksHtml;
+    if (containerMobile) containerMobile.innerHTML = linksHtml;
+}
+
+// Load stats from stats.json
+async function loadStats() {
+    try {
+        const response = await fetch('stats.json');
+        if (!response.ok) {
+            throw new Error('Stats not available');
+        }
+        statsData = await response.json();
+        renderMonitoringPanel();
+    } catch (error) {
+        console.log('Stats not available:', error.message);
+        renderMonitoringPanelUnavailable();
+    }
+}
+
+// Render monitoring panel
+function renderMonitoringPanel() {
+    const desktopPanel = document.getElementById('monitor-panel-desktop');
+    const mobilePanel = document.getElementById('monitor-panel-mobile');
+
+    if (!statsData) {
+        renderMonitoringPanelUnavailable();
+        return;
+    }
+
+    const html = generateMonitoringHtml(statsData);
+
+    if (desktopPanel) desktopPanel.innerHTML = html;
+    if (mobilePanel) mobilePanel.innerHTML = html;
+
+    lucide.createIcons();
+}
+
+// Generate monitoring HTML
+function generateMonitoringHtml(stats) {
+    const system = stats.system || {};
+    const services = stats.services || [];
+
+    // Helper to get color based on percentage
+    const getStatColor = (percent) => {
+        if (percent >= 90) return 'var(--ctp-red)';
+        if (percent >= 70) return 'var(--ctp-yellow)';
+        return 'var(--ctp-green)';
+    };
+
+    // System stats section
+    let html = `
+        <div class="monitor-section">
+            <div class="monitor-section-title">System</div>
+    `;
+
+    // CPU
+    if (system.cpu_percent !== undefined) {
+        const cpuColor = getStatColor(system.cpu_percent);
+        html += `
+            <div class="stat-row">
+                <span class="stat-label">CPU</span>
+                <span class="stat-value" style="color: ${cpuColor};">${system.cpu_percent.toFixed(1)}%</span>
+            </div>
+            <div class="stat-bar mb-3">
+                <div class="stat-bar-fill" style="width: ${system.cpu_percent}%; background: ${cpuColor};"></div>
+            </div>
+        `;
+    }
+
+    // Memory
+    if (system.memory) {
+        const memColor = getStatColor(system.memory.percent);
+        html += `
+            <div class="stat-row">
+                <span class="stat-label">Memory</span>
+                <span class="stat-value" style="color: ${memColor};">${system.memory.used_gb.toFixed(1)}/${system.memory.total_gb.toFixed(1)} GB</span>
+            </div>
+            <div class="stat-bar mb-3">
+                <div class="stat-bar-fill" style="width: ${system.memory.percent}%; background: ${memColor};"></div>
+            </div>
+        `;
+    }
+
+    // Disk
+    if (system.disk) {
+        const diskColor = getStatColor(system.disk.percent);
+        html += `
+            <div class="stat-row">
+                <span class="stat-label">Disk</span>
+                <span class="stat-value" style="color: ${diskColor};">${system.disk.used_gb.toFixed(1)}/${system.disk.total_gb.toFixed(1)} GB</span>
+            </div>
+            <div class="stat-bar mb-3">
+                <div class="stat-bar-fill" style="width: ${system.disk.percent}%; background: ${diskColor};"></div>
+            </div>
+        `;
+    }
+
+    // Load average
+    if (system.load_average) {
+        html += `
+            <div class="stat-row">
+                <span class="stat-label">Load</span>
+                <span class="stat-value">${system.load_average.map(l => l.toFixed(2)).join(' / ')}</span>
+            </div>
+        `;
+    }
+
+    // Uptime
+    if (system.uptime_days !== undefined) {
+        html += `
+            <div class="stat-row">
+                <span class="stat-label">Uptime</span>
+                <span class="stat-value">${system.uptime_days}d</span>
+            </div>
+        `;
+    }
+
+    html += `</div>`;
+
+    // Services section
+    if (services.length > 0) {
+        html += `
+            <div class="monitor-section">
+                <div class="monitor-section-title">Services</div>
+        `;
+
+        services.forEach(service => {
+            const statusClass = service.status === 'running' ? 'running' :
+                               service.status === 'stopped' ? 'stopped' : 'unknown';
+            const uptimeText = service.uptime || '--';
+
+            html += `
+                <div class="service-row">
+                    <span class="status-dot ${statusClass}"></span>
+                    <span class="service-name">${service.name}</span>
+                    <span class="service-uptime">${uptimeText}</span>
+                </div>
+            `;
+        });
+
+        html += `</div>`;
+    }
+
+    // Last updated
+    if (stats.timestamp) {
+        const lastUpdate = new Date(stats.timestamp);
+        const timeAgo = getTimeAgo(lastUpdate);
+        html += `
+            <div class="text-xs text-center mt-3" style="color: var(--ctp-overlay0);">
+                Updated ${timeAgo}
+            </div>
+        `;
+    }
+
+    return html;
+}
+
+// Get human-readable time ago string
+function getTimeAgo(date) {
+    const seconds = Math.floor((new Date() - date) / 1000);
+    if (seconds < 60) return 'just now';
+    const minutes = Math.floor(seconds / 60);
+    if (minutes < 60) return `${minutes}m ago`;
+    const hours = Math.floor(minutes / 60);
+    if (hours < 24) return `${hours}h ago`;
+    const days = Math.floor(hours / 24);
+    return `${days}d ago`;
+}
+
+// Render monitoring panel when stats unavailable
+function renderMonitoringPanelUnavailable() {
+    const desktopPanel = document.getElementById('monitor-panel-desktop');
+    const mobilePanel = document.getElementById('monitor-panel-mobile');
+
+    const html = `
+        <div class="stats-unavailable">
+            <i data-lucide="wifi-off" class="w-8 h-8 mx-auto mb-2" style="color: var(--ctp-overlay0);"></i>
+            <p>Monitoring unavailable</p>
+            <p class="text-xs mt-1" style="color: var(--ctp-overlay0);">Run monitor script to enable</p>
+        </div>
+    `;
+
+    if (desktopPanel) desktopPanel.innerHTML = html;
+    if (mobilePanel) mobilePanel.innerHTML = html;
+
+    lucide.createIcons();
+}
+
+// Toggle monitoring panel on mobile
+function toggleMonitorPanel() {
+    const header = document.getElementById('monitor-toggle');
+    const content = document.getElementById('monitor-content-mobile');
+
+    header.classList.toggle('expanded');
+    content.classList.toggle('expanded');
+}
+
+// Toggle quick links panel on mobile
+function toggleQuickLinksPanel() {
+    const header = document.getElementById('quicklinks-toggle');
+    const content = document.getElementById('quicklinks-content-mobile');
+
+    header.classList.toggle('expanded');
+    content.classList.toggle('expanded');
 }
 
 // Setup auto-focus on search when typing
@@ -360,6 +567,11 @@ async function initApp() {
 
     // Render quick links
     renderQuickLinks();
+
+    // Load and render monitoring stats
+    await loadStats();
+    // Refresh stats every 60 seconds
+    setInterval(loadStats, 60000);
 
     // Setup date/time updates
     updateDateTime();

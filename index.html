@@ -83,10 +83,16 @@
         }
 
         .card {
-            background-color: var(--ctp-surface0);
-            border: 2px solid transparent;
+            background: rgba(49, 50, 68, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease, border-color 0.2s ease;
-            opacity: 0.95;
+        }
+
+        .light-theme .card {
+            background: rgba(204, 208, 218, 0.6);
+            border: 1px solid rgba(0, 0, 0, 0.1);
         }
 
         .card:hover {
@@ -95,10 +101,16 @@
         }
 
         .search-input {
-            background-color: var(--ctp-surface0);
+            background: rgba(49, 50, 68, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             color: var(--ctp-text);
-            border: 2px solid var(--ctp-surface1);
-            opacity: 0.95;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .light-theme .search-input {
+            background: rgba(204, 208, 218, 0.6);
+            border: 1px solid rgba(0, 0, 0, 0.1);
         }
 
         .search-input:focus {
@@ -120,13 +132,19 @@
         }
 
         .theme-toggle {
-            background-color: var(--ctp-surface0);
+            background: rgba(49, 50, 68, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             color: var(--ctp-text);
-            border: 2px solid var(--ctp-surface1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             cursor: pointer;
             transition: all 0.2s ease;
             align-self: stretch;
-            opacity: 0.95;
+        }
+
+        .light-theme .theme-toggle {
+            background: rgba(204, 208, 218, 0.6);
+            border: 1px solid rgba(0, 0, 0, 0.1);
         }
 
         .theme-toggle:hover {
@@ -134,10 +152,16 @@
             background-color: var(--ctp-surface1);
         }
 
-        .sidebar {
-            background-color: var(--ctp-surface0);
-            border: 2px solid var(--ctp-surface1);
-            opacity: 0.95;
+        .sidebar, .monitor-panel {
+            background: rgba(49, 50, 68, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .light-theme .sidebar, .light-theme .monitor-panel {
+            background: rgba(204, 208, 218, 0.6);
+            border: 1px solid rgba(0, 0, 0, 0.1);
         }
 
         .sidebar-link {
@@ -190,11 +214,17 @@
             display: flex;
             gap: 1rem;
             flex-wrap: wrap;
-            background-color: var(--ctp-surface0);
-            border: 2px solid var(--ctp-surface1);
+            background: rgba(49, 50, 68, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             padding: 0.5rem 0.75rem;
             border-radius: 0.5rem;
-            opacity: 0.95;
+        }
+
+        .light-theme .world-clocks-header {
+            background: rgba(204, 208, 218, 0.6);
+            border: 1px solid rgba(0, 0, 0, 0.1);
         }
 
         .world-clocks-header .clock-item {
@@ -235,6 +265,165 @@
             font-style: italic;
             font-size: 0.875rem;
         }
+
+        /* Collapsible panels */
+        .collapsible-header {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem 1rem;
+            background: rgba(49, 50, 68, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .light-theme .collapsible-header {
+            background: rgba(204, 208, 218, 0.6);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .collapsible-header:hover {
+            background: rgba(49, 50, 68, 0.8);
+        }
+
+        .light-theme .collapsible-header:hover {
+            background: rgba(204, 208, 218, 0.8);
+        }
+
+        .collapsible-header .chevron {
+            transition: transform 0.2s ease;
+        }
+
+        .collapsible-header.expanded .chevron {
+            transform: rotate(180deg);
+        }
+
+        .collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .collapsible-content.expanded {
+            max-height: 2000px;
+        }
+
+        /* Progress bars for stats */
+        .stat-bar {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .light-theme .stat-bar {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-bar-fill {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+
+        /* Service status indicators */
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .status-dot.running {
+            background-color: var(--ctp-green);
+            box-shadow: 0 0 6px var(--ctp-green);
+        }
+
+        .status-dot.stopped {
+            background-color: var(--ctp-red);
+            box-shadow: 0 0 6px var(--ctp-red);
+        }
+
+        .status-dot.unknown {
+            background-color: var(--ctp-yellow);
+            box-shadow: 0 0 6px var(--ctp-yellow);
+        }
+
+        /* Monitor section styling */
+        .monitor-section {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .monitor-section:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+            margin-bottom: 0;
+        }
+
+        .light-theme .monitor-section {
+            border-bottom-color: rgba(0, 0, 0, 0.05);
+        }
+
+        .monitor-section-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--ctp-subtext0);
+            margin-bottom: 0.75rem;
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--ctp-subtext1);
+        }
+
+        .stat-value {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--ctp-text);
+            font-family: 'Courier New', monospace;
+        }
+
+        .service-row {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.375rem 0;
+        }
+
+        .service-name {
+            font-size: 0.875rem;
+            color: var(--ctp-text);
+            flex: 1;
+        }
+
+        .service-uptime {
+            font-size: 0.75rem;
+            color: var(--ctp-subtext0);
+            font-family: 'Courier New', monospace;
+        }
+
+        /* Stats unavailable state */
+        .stats-unavailable {
+            text-align: center;
+            padding: 1rem;
+            color: var(--ctp-subtext0);
+            font-size: 0.875rem;
+        }
     </style>
 </head>
 <body class="min-h-screen p-6">
@@ -243,7 +432,7 @@
         <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 mb-6">
             <div class="flex-1">
                 <div class="flex items-baseline gap-3 mb-3 flex-wrap">
-                    <h1 class="text-4xl font-bold" style="color: var(--ctp-blue);">cortana.carlocarfora.co.uk</h1>
+                    <h1 class="text-4xl font-bold" style="color: var(--ctp-blue);">Cortana</h1>
                     <span class="text-2xl" style="color: var(--ctp-overlay0);">-</span>
                     <p id="cortana-quote" class="cortana-quote flex-1"></p>
                 </div>
@@ -272,10 +461,38 @@
         </div>
     </header>
 
-    <!-- Main Layout: 2 Column -->
+    <!-- Main Layout: 3 Column -->
     <div class="flex flex-col lg:flex-row gap-6">
+        <!-- Monitoring Panel (Left) -->
+        <aside class="lg:w-80 h-fit lg:sticky lg:top-6 order-first">
+            <!-- Mobile: Collapsible header -->
+            <div class="lg:hidden">
+                <button id="monitor-toggle" class="collapsible-header w-full" onclick="toggleMonitorPanel()">
+                    <span class="flex items-center gap-2">
+                        <i data-lucide="activity" class="w-5 h-5" style="color: var(--ctp-lavender);"></i>
+                        <span class="font-semibold" style="color: var(--ctp-lavender);">System Status</span>
+                    </span>
+                    <i data-lucide="chevron-down" class="chevron w-5 h-5" style="color: var(--ctp-subtext0);"></i>
+                </button>
+                <div id="monitor-content-mobile" class="collapsible-content">
+                    <div class="monitor-panel p-4 rounded-b-lg" id="monitor-panel-mobile">
+                        <!-- Monitoring content rendered by JS -->
+                    </div>
+                </div>
+            </div>
+            <!-- Desktop: Always visible -->
+            <div class="hidden lg:block">
+                <h2 class="section-header text-2xl font-bold mb-4 flex items-center gap-2">
+                    <span style="color: var(--ctp-lavender);">System Status</span>
+                </h2>
+                <div class="monitor-panel p-6 rounded-lg" id="monitor-panel-desktop">
+                    <!-- Monitoring content rendered by JS -->
+                </div>
+            </div>
+        </aside>
+
         <!-- Main Content -->
-        <main class="flex-1">
+        <main class="flex-1 order-2 lg:order-2">
             <div id="app-sections" class="space-y-8">
                 <!-- Sections will be dynamically rendered here -->
             </div>
@@ -287,10 +504,27 @@
             </div>
         </main>
 
-        <!-- Sidebar (Right) -->
-        <aside class="lg:w-80 h-fit sticky top-6">
-            <!-- Quick Links -->
-            <div>
+        <!-- Quick Links (Right) -->
+        <aside class="lg:w-80 h-fit lg:sticky lg:top-6 order-last">
+            <!-- Mobile: Collapsible header -->
+            <div class="lg:hidden">
+                <button id="quicklinks-toggle" class="collapsible-header w-full" onclick="toggleQuickLinksPanel()">
+                    <span class="flex items-center gap-2">
+                        <i data-lucide="link" class="w-5 h-5" style="color: var(--ctp-green);"></i>
+                        <span class="font-semibold" style="color: var(--ctp-green);">Quick Links</span>
+                    </span>
+                    <i data-lucide="chevron-down" class="chevron w-5 h-5" style="color: var(--ctp-subtext0);"></i>
+                </button>
+                <div id="quicklinks-content-mobile" class="collapsible-content">
+                    <div class="sidebar p-4 rounded-b-lg">
+                        <div id="quick-links-mobile">
+                            <!-- Links will be rendered here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Desktop: Always visible -->
+            <div class="hidden lg:block">
                 <h2 class="section-header text-2xl font-bold mb-4 flex items-center gap-2">
                     <span style="color: var(--ctp-green);">Quick Links</span>
                 </h2>

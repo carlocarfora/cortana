@@ -1,0 +1,30 @@
+{
+  "timestamp": "2026-01-25T12:00:00Z",
+  "system": {
+    "cpu_percent": 23.5,
+    "memory": {
+      "used_gb": 4.2,
+      "total_gb": 8.0,
+      "percent": 52.5
+    },
+    "disk": {
+      "used_gb": 45.2,
+      "total_gb": 100.0,
+      "percent": 45.2
+    },
+    "load_average": [0.52, 0.48, 0.51],
+    "uptime_days": 42,
+    "swap": {
+      "used_gb": 0.1,
+      "total_gb": 2.0,
+      "percent": 5.0
+    }
+  },
+  "services": [
+    { "name": "nginx", "status": "running", "uptime": "42d 3h" },
+    { "name": "sshd", "status": "running", "uptime": "42d 3h" },
+    { "name": "strong", "status": "running", "uptime": null },
+    { "name": "flights", "status": "running", "uptime": null },
+    { "name": "travels", "status": "running", "uptime": null }
+  ]
+}
