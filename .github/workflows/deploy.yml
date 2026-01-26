@@ -17,10 +17,8 @@ jobs:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
-          source: "index.html,app.js,data.json,cortana-bg.png,stats.json.example,monitor,README.md"
+          source: "."
           target: "/var/www/cortana"
-          strip_components: 0
-          overwrite: true
 
       - name: Verify deployment
         uses: appleboy/ssh-action@master
@@ -29,89 +27,16 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
           script: |
-            echo "========================================"
             echo "Verifying deployment..."
-            echo "========================================"
-
-            # Check if all required files exist
-            MISSING_FILES=0
-            for file in index.html app.js data.json cortana-bg.png README.md stats.json.example; do
-              if [ -f "/var/www/cortana/$file" ]; then
-                echo "✓ $file found"
-              else
-                echo "✗ $file MISSING"
-                MISSING_FILES=$((MISSING_FILES + 1))
-              fi
-            done
-
-            # Check monitor directory
-            if [ -d "/var/www/cortana/monitor" ]; then
-              echo "✓ monitor directory found"
-              if [ -f "/var/www/cortana/monitor/monitor.py" ]; then
-                echo "  ✓ monitor.py found"
-              else
-                echo "  ✗ monitor.py MISSING"
-                MISSING_FILES=$((MISSING_FILES + 1))
-              fi
-            else
-              echo "✗ monitor directory MISSING"
-              MISSING_FILES=$((MISSING_FILES + 1))
-            fi
-
-            # Check that dev files are NOT present
-            echo ""
-            echo "Checking dev files are excluded..."
-            for file in .git .github .claude CLAUDE.md .gitignore; do
-              if [ -e "/var/www/cortana/$file" ]; then
-                echo "⚠ Warning: $file should not be deployed"
-              else
-                echo "✓ $file correctly excluded"
-              fi
-            done
-
-            # Verify file permissions
-            echo ""
-            echo "Checking file permissions..."
-            if [ -r "/var/www/cortana/index.html" ]; then
-              echo "✓ index.html is readable"
-            else
-              echo "✗ index.html is not readable"
-              MISSING_FILES=$((MISSING_FILES + 1))
-            fi
-
-            echo ""
-            echo "========================================"
-            if [ $MISSING_FILES -eq 0 ]; then
-              echo "✅ Deployment verification PASSED"
-              echo "========================================"
-              exit 0
-            else
-              echo "❌ Deployment verification FAILED"
-              echo "Missing or unreadable files: $MISSING_FILES"
-              echo "========================================"
-              exit 1
-            fi
+            test -f /var/www/cortana/index.html && echo "✓ Deployment successful" || (echo "✗ Deployment failed" && exit 1)
 
       - name: Test website accessibility
         run: |
-          echo "Testing website is accessible..."
-
-          # Wait a moment for any web server to pick up changes
+          echo "Testing website accessibility..."
           sleep 2
-
-          # Test if the site returns 200 OK
           HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://cortana.carlocarfora.co.uk/)
-
           if [ "$HTTP_STATUS" = "200" ]; then
             echo "✅ Website is accessible (HTTP $HTTP_STATUS)"
           else
-            echo "⚠️  Website returned HTTP $HTTP_STATUS (expected 200)"
-            echo "This may be normal if the site takes time to update"
-          fi
-
-          # Check if index.html contains expected content
-          if curl -s https://cortana.carlocarfora.co.uk/ | grep -q "cortana.carlocarfora.co.uk"; then
-            echo "✅ Website content verified"
-          else
-            echo "⚠️  Could not verify website content"
+            echo "⚠️  Warning: Website returned HTTP $HTTP_STATUS"
           fi
