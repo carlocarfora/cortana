@@ -20,7 +20,7 @@ jobs:
           source: "index.html,app.js,data.json,cortana-bg.png,stats.json.example,monitor,README.md"
           target: "/var/www/cortana"
           strip_components: 0
-          rm: true
+          overwrite: true
 
       - name: Verify deployment
         uses: appleboy/ssh-action@master
