@@ -1,7 +1,6 @@
 // Global state
 let appData = null;
 let statsData = null;
-let currentSearchQuery = '';
 let visibleApps = [];
 
 // Color mapping for Catppuccin colors
@@ -101,24 +100,14 @@ async function loadData() {
 // Render all sections with their apps
 function renderSections() {
     const container = document.getElementById('app-sections');
-    const emptyState = document.getElementById('empty-state');
 
     if (!appData || !appData.sections) {
         return;
     }
 
-    // Filter sections based on search query
-    const filteredSections = appData.sections.map(section => {
-        const filteredApps = section.apps.filter(app =>
-            app.name.toLowerCase().includes(currentSearchQuery.toLowerCase()) ||
-            app.description.toLowerCase().includes(currentSearchQuery.toLowerCase())
-        );
-        return { ...section, apps: filteredApps };
-    }).filter(section => section.apps.length > 0);
-
     // Update visible apps for keyboard shortcuts
     visibleApps = [];
-    filteredSections.forEach(section => {
+    appData.sections.forEach(section => {
         section.apps.forEach(app => {
             if (visibleApps.length < 9) {
                 visibleApps.push(app);
@@ -126,19 +115,8 @@ function renderSections() {
         });
     });
 
-    // Show/hide empty state
-    if (filteredSections.length === 0) {
-        container.classList.add('hidden');
-        emptyState.classList.remove('hidden');
-        lucide.createIcons();
-        return;
-    } else {
-        container.classList.remove('hidden');
-        emptyState.classList.add('hidden');
-    }
-
     // Render sections
-    container.innerHTML = filteredSections.map(section => `
+    container.innerHTML = appData.sections.map(section => `
         <section>
             <h2 class="section-header text-2xl font-bold mb-4 flex items-center gap-2">
                 <span style="color: ${colorMap[section.color] || colorMap.blue};">${section.title}</span>
@@ -176,12 +154,6 @@ function renderCard(app, sectionColor) {
             <p class="text-sm" style="color: var(--ctp-subtext0);">${app.description}</p>
         </a>
     `;
-}
-
-// Filter apps based on search query
-function filterApps(query) {
-    currentSearchQuery = query;
-    renderSections();
 }
 
 // Update date and time display
@@ -561,31 +533,6 @@ function toggleQuickLinksPanel() {
     content.classList.toggle('expanded');
 }
 
-// Setup auto-focus on search when typing
-function setupAutoFocusSearch() {
-    const searchInput = document.getElementById('search-input');
-
-    document.addEventListener('keydown', (event) => {
-        // Don't focus if already focused
-        if (document.activeElement === searchInput) {
-            return;
-        }
-
-        // Don't focus for special keys
-        if (event.ctrlKey || event.metaKey || event.altKey) {
-            return;
-        }
-
-        // Don't focus for function keys, escape, etc
-        if (event.key.length > 1 && event.key !== 'Backspace') {
-            return;
-        }
-
-        // Focus the search input
-        searchInput.focus();
-    });
-}
-
 // Initialize the application
 async function initApp() {
     // Initialize theme
@@ -614,15 +561,6 @@ async function initApp() {
     // Setup world clocks
     updateWorldClocks();
     setInterval(updateWorldClocks, 1000);
-
-    // Setup search functionality
-    const searchInput = document.getElementById('search-input');
-    searchInput.addEventListener('input', (event) => {
-        filterApps(event.target.value);
-    });
-
-    // Setup auto-focus search
-    setupAutoFocusSearch();
 
     // Setup keyboard shortcuts
     setupKeyboardShortcuts();

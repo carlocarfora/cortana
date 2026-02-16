@@ -100,24 +100,6 @@
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
         }
 
-        .search-input {
-            background: rgba(49, 50, 68, 0.6);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            color: var(--ctp-text);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .light-theme .search-input {
-            background: rgba(204, 208, 218, 0.6);
-            border: 1px solid rgba(0, 0, 0, 0.1);
-        }
-
-        .search-input:focus {
-            outline: none;
-            border-color: var(--ctp-blue);
-        }
-
         .section-header {
             color: var(--ctp-text);
         }
@@ -448,17 +430,6 @@
                 </button>
             </div>
         </div>
-
-        <!-- Search Bar -->
-        <div class="relative">
-            <i data-lucide="search" class="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5" style="color: var(--ctp-overlay0);"></i>
-            <input
-                type="text"
-                id="search-input"
-                class="search-input w-full pl-12 pr-4 py-3 rounded-lg"
-                placeholder="Search apps..."
-            >
-        </div>
     </header>
 
     <!-- Main Layout: 3 Column -->
@@ -495,12 +466,6 @@
         <main class="flex-1 order-2 lg:order-2">
             <div id="app-sections" class="space-y-8">
                 <!-- Sections will be dynamically rendered here -->
-            </div>
-
-            <!-- Empty State -->
-            <div id="empty-state" class="hidden text-center py-16">
-                <i data-lucide="search-x" class="w-16 h-16 mx-auto mb-4" style="color: var(--ctp-overlay0);"></i>
-                <p class="text-xl" style="color: var(--ctp-subtext0);">No apps found</p>
             </div>
         </main>
 
