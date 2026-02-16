@@ -25,6 +25,7 @@
     { "name": "sshd", "status": "running", "uptime": "42d 3h" },
     { "name": "strong", "status": "running", "uptime": null },
     { "name": "flights", "status": "running", "uptime": null },
+    { "name": "ryan", "status": "running", "uptime": null },
     { "name": "travels", "status": "running", "uptime": null }
   ]
 }

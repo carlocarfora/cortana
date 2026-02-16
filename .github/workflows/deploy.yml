@@ -31,6 +31,18 @@ jobs:
           source: "."
           target: "/var/www/cortana"
 
+      - name: Update monitor script
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          script: |
+            echo "Updating monitor script..."
+            sudo cp /var/www/cortana/monitor/monitor.py /opt/cortana-monitor/monitor.py
+            sudo chmod +x /opt/cortana-monitor/monitor.py
+            echo "✓ Monitor script updated"
+
       - name: Verify deployment
         uses: appleboy/ssh-action@master
         with:

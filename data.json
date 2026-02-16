@@ -1,18 +1,4 @@
 {
-  "quickLinks": [
-    {
-      "name": "Hacker News",
-      "url": "https://news.ycombinator.com"
-    },
-    {
-      "name": "X",
-      "url": "https://twitter.com"
-    },
-    {
-      "name": "LinkedIn",
-      "url": "https://linkedin.com"
-    }
-  ],
   "sections": [
     {
       "apps": [
@@ -33,6 +19,12 @@
           "icon": "camera",
           "name": "Travels",
           "url": "https://travels.carlocarfora.co.uk"
+        },
+        {
+          "description": "Ryan's Gym Tracker",
+          "icon": "activity",
+          "name": "Ryan",
+          "url": "https://ryan.carlocarfora.co.uk"
         }
       ],
       "color": "blue",

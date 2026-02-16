@@ -308,23 +308,55 @@ function updateWorldClocks() {
     }).join('');
 }
 
-// Render quick links
-function renderQuickLinks() {
+// Fetch and render Hacker News RSS feed
+async function renderHackerNewsFeed() {
     const container = document.getElementById('quick-links');
     const containerMobile = document.getElementById('quick-links-mobile');
 
-    if (!appData || !appData.quickLinks) {
-        return;
+    try {
+        // Use hnrss.org for frontpage stories
+        const response = await fetch('https://hnrss.org/frontpage?count=10');
+        const xmlText = await response.text();
+
+        // Parse XML
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
+        const items = xmlDoc.querySelectorAll('item');
+
+        // Extract stories (limit to 10)
+        const stories = Array.from(items).slice(0, 10).map(item => ({
+            title: item.querySelector('title')?.textContent || 'Untitled',
+            url: item.querySelector('link')?.textContent || '#'
+        }));
+
+        // Render stories
+        const linksHtml = stories.map(story => `
+            <a href="${story.url}" target="_blank" rel="noopener noreferrer" class="sidebar-link">
+                ${story.title}
+            </a>
+        `).join('');
+
+        if (container) container.innerHTML = linksHtml;
+        if (containerMobile) containerMobile.innerHTML = linksHtml;
+
+    } catch (error) {
+        console.error('Error fetching HN feed:', error);
+
+        // Fallback to error message
+        const errorHtml = `
+            <div style="color: var(--ctp-overlay0); padding: 1rem; text-align: center;">
+                <p style="font-size: 0.875rem;">Unable to load HN feed</p>
+            </div>
+        `;
+        if (container) container.innerHTML = errorHtml;
+        if (containerMobile) containerMobile.innerHTML = errorHtml;
     }
+}
 
-    const linksHtml = appData.quickLinks.map(link => `
-        <a href="${link.url}" target="_blank" rel="noopener noreferrer" class="sidebar-link">
-            ${link.name}
-        </a>
-    `).join('');
-
-    if (container) container.innerHTML = linksHtml;
-    if (containerMobile) containerMobile.innerHTML = linksHtml;
+// Legacy function for backward compatibility
+function renderQuickLinks() {
+    // Now renders HN feed instead
+    renderHackerNewsFeed();
 }
 
 // Load stats from stats.json
@@ -565,8 +597,10 @@ async function initApp() {
     // Load and render data
     await loadData();
 
-    // Render quick links
+    // Render Hacker News feed
     renderQuickLinks();
+    // Refresh HN feed every 10 minutes
+    setInterval(renderQuickLinks, 600000);
 
     // Load and render monitoring stats
     await loadStats();
