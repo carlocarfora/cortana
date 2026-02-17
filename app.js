@@ -280,28 +280,20 @@ function updateWorldClocks() {
     }).join('');
 }
 
-// Fetch and render Hacker News RSS feed
+// Fetch and render Hacker News feed via Algolia API (CORS-friendly JSON)
 async function renderHackerNewsFeed() {
     const container = document.getElementById('quick-links');
     const containerMobile = document.getElementById('quick-links-mobile');
 
     try {
-        // Use hnrss.org for frontpage stories
-        const response = await fetch('https://hnrss.org/frontpage?count=10');
-        const xmlText = await response.text();
+        const response = await fetch('https://hn.algolia.com/api/v1/search?tags=front_page&hitsPerPage=10');
+        const data = await response.json();
 
-        // Parse XML
-        const parser = new DOMParser();
-        const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
-        const items = xmlDoc.querySelectorAll('item');
-
-        // Extract stories (limit to 10)
-        const stories = Array.from(items).slice(0, 10).map(item => ({
-            title: item.querySelector('title')?.textContent || 'Untitled',
-            url: item.querySelector('link')?.textContent || '#'
+        const stories = data.hits.map(hit => ({
+            title: hit.title || 'Untitled',
+            url: hit.url || `https://news.ycombinator.com/item?id=${hit.objectID}`
         }));
 
-        // Render stories
         const linksHtml = stories.map(story => `
             <a href="${story.url}" target="_blank" rel="noopener noreferrer" class="sidebar-link">
                 ${story.title}
@@ -314,7 +306,6 @@ async function renderHackerNewsFeed() {
     } catch (error) {
         console.error('Error fetching HN feed:', error);
 
-        // Fallback to error message
         const errorHtml = `
             <div style="color: var(--ctp-overlay0); padding: 1rem; text-align: center;">
                 <p style="font-size: 0.875rem;">Unable to load HN feed</p>
