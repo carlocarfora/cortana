@@ -25,6 +25,12 @@
           "icon": "activity",
           "name": "Ryan",
           "url": "https://ryan.carlocarfora.co.uk"
+        },
+        {
+          "description": "Personal budget tracker.",
+          "icon": "wallet",
+          "name": "Budget",
+          "url": "https://budget.carlocarfora.co.uk"
         }
       ],
       "color": "blue",

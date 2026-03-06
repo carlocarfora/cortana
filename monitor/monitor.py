@@ -29,6 +29,7 @@ CONFIG = {
         {"name": "strong", "port": 8000, "type": "port"},
         {"name": "flights", "port": 8001, "type": "port"},
         {"name": "ryan", "port": 8002, "type": "port"},
+        {"name": "budget", "port": 8003, "type": "port"},
     ],
 
     # Websites to monitor via HTTP ping
